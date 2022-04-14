@@ -115,7 +115,6 @@ function clearList() {
 function copyLink() {
   clipboard.innerText = encodeURI( window.location.href + '#' + JSON.stringify(nameList) );
   clipboard.select();
-  document.execCommand('copy');
   clipboard.blur();
 }
 
@@ -145,7 +144,7 @@ function checkIfMobile() {
 function registerInputListeners() {
   btn_addWedge.onclick = addItem;
   wedge_input.onkeyup = function (e) {
-    if (e.keyCode === ENTER_KEY) {
+    if (e === ENTER_KEY) {
       addItem();
     }
   };
@@ -253,7 +252,7 @@ function loop() {
       context.stroke();
     }
   }
-
+  //文字顯示區塊語法
   for (i = 0; i < nameList.length; i++) {
     context.beginPath();
     wedgeRotation = (i * wedgeSubdiv + wheelRotation) + wedgeSubdiv / 2;
@@ -265,18 +264,19 @@ function loop() {
         CANVAS_MID_X + Math.cos(degRad(wedgeRotation)) * (WHEEL_RADIUS * wedge_text_position),
         CANVAS_MID_Y + Math.sin(degRad(wedgeRotation)) * (WHEEL_RADIUS * wedge_text_position)
     );
-    context.rotate(degRad(wedgeRotation + 180));
+    context.rotate(degRad(wedgeRotation + 180)); //利用rotate讓文字也跟著旋轉
     context.fillText(nameList[i], 0, 0);
     context.restore();
   }
-
+  //指針相關語法
   fillColor('red');
   context.beginPath();
   context.moveTo(CANVAS_MID_X + canvas.width / 32, canvas.height / 64);
   context.lineTo(CANVAS_MID_X - canvas.width / 32, canvas.height / 64);
   context.lineTo(CANVAS_MID_X, canvas.height / 18);
   context.fill();
-
+  
+  //轉盤項目清單為空時，相關語法
   if (!nameList.length) {
     context.beginPath();
     context.textAlign = 'center';
